@@ -1,0 +1,399 @@
+/* --- Catppuccin Color Variables (Mocha - Dark Mode, FIXED) --- */
+
+/* Fixed to Dark Mode (Mocha) for consistent, aesthetic experience */
+:root {
+    --bg-color: #1e1e2e; /* Crust/Base */
+    --fg-color: #cdd6f4; /* Text */
+    --surface-color: #313244; /* Surface/Card */
+    --subtle-color: #45475a; /* Overlay/Hint Text */
+    --primary-accent: #89b4fa; /* Blue (Accent for headings/buttons) */
+    --income-color: #a6e3a1; /* Green */
+    --expense-color: #f38ba8; /* Red */
+    --net-income-color: #f9e2af; /* Yellow (Subtle change for net) */
+    --status-bg: #45475a; /* Consistent background for status/subtle elements */
+    --font-family: 'Source Code Pro', monospace;
+    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    --transition-speed: 0.3s;
+}
+
+/* ADDED: Catppuccin Color Variables (Latte - Light Mode) */
+/* The JS toggles the body class, which activates these variables */
+body.theme-light {
+    --bg-color: #eff1f5; /* Base */
+    --fg-color: #4c4f69; /* Text */
+    --surface-color: #e6e9ef; /* Surface/Card */
+    --subtle-color: #9ca0b0; /* Overlay/Hint Text */
+    --primary-accent: #1e66f5; /* Blue */
+    --income-color: #40a02b; /* Green */
+    --expense-color: #d20f39; /* Red */
+    --net-income-color: #df8e1d; /* Yellow */
+    --status-bg: #ccd0da; /* Subtle background */
+    --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* --- Global Styling and Animations --- */
+
+body {
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+    transition: all var(--transition-speed); 
+    min-height: 100vh;
+    font-family: var(--font-family);
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+}
+
+h1, h2, h3, .amount-value, button {
+    font-family: var(--font-family);
+    font-weight: 700;
+}
+h1, header p {
+    color: var(--fg-color) !important;
+}
+
+.accent-color { color: var(--primary-accent); }
+.subtle-text { color: var(--subtle-color); }
+
+.btn.subtle-text {
+    background: transparent;
+    border: none;
+    color: var(--subtle-color);
+}
+.btn.subtle-text:hover {
+    color: var(--primary-accent);
+}
+
+/* --- Card and Section Styling (Enhanced) --- */
+.section-card {
+    background-color: var(--surface-color);
+    color: var(--fg-color);
+    border: 1px solid var(--subtle-color);
+    border-radius: 12px; /* Slightly more rounded corners */
+    /* Increased initial shadow for a 'lifted' look */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); 
+    transition: all var(--transition-speed);
+    transform: translateY(0); /* Ensure initial state is set */
+}
+
+.section-card:hover {
+    /* Enhanced: Subtle lift and primary glow on hover */
+    transform: translateY(-5px); 
+    border-color: var(--primary-accent);
+    box-shadow: var(--box-shadow), 0 0 25px rgba(137, 180, 250, 0.4); 
+}
+/* ------------------------------------------- */
+
+/* Inputs and Selects */
+.form-control, .form-select {
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+    border: 1px solid var(--subtle-color);
+    transition: all var(--transition-speed);
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--bg-color);
+    color: var(--fg-color);
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 0.25rem var(--primary-accent)40; 
+}
+
+/* Date Input Styling (Custom Calendar Look) */
+.date-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--subtle-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+    transition: all var(--transition-speed);
+    cursor: pointer;
+}
+
+.date-input-container:hover {
+    border-color: var(--primary-accent);
+}
+
+.date-input-container input[type="date"] {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.date-display {
+    flex-grow: 1;
+    font-weight: 600;
+    color: var(--fg-color);
+}
+
+.date-input-container .date-icon {
+    color: var(--primary-accent);
+    margin-left: 10px;
+}
+
+.date-input-container:has(input[type="date"]:focus) {
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 0.25rem var(--primary-accent)40;
+}
+
+/* Button Styling */
+.btn-catpuccin {
+    background-color: var(--primary-accent);
+    color: var(--bg-color); 
+    font-weight: 600;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-catpuccin:hover {
+    background-color: var(--primary-accent); 
+    filter: brightness(1.2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(137, 180, 250, 0.6); 
+}
+
+.btn-delete {
+    background-color: var(--expense-color);
+    color: var(--bg-color);
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    transition: all 0.2s;
+    border-radius: 6px;
+}
+.btn-delete:hover {
+    background-color: var(--expense-color);
+    filter: brightness(1.2);
+    transform: scale(1.1);
+}
+
+/* Error Message Styling */
+.error-message {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--expense-color);
+    background-color: rgba(243, 139, 168, 0.1); /* Subtle red background */
+    border: 1px solid var(--expense-color);
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    transition: opacity var(--transition-speed);
+}
+
+
+/* --- Summary Boxes --- */
+.summary-box {
+    padding: 1.25rem;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid var(--subtle-color); 
+    transition: all var(--transition-speed);
+    position: relative;
+    background-color: var(--bg-color); 
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); 
+}
+
+.summary-box:hover {
+     /* Uses the existing specific border color, but changes the style to dashed */
+     border-style: dashed;
+     border-width: 2px;
+     /* Enhanced: Subtle lift and glow on hover for any summary box */
+     transform: translateY(-3px);
+     box-shadow: var(--box-shadow), 0 0 20px rgba(137, 180, 250, 0.3);
+}
+
+.summary-box h5 {
+    font-size: 1rem;
+    color: var(--subtle-color);
+}
+
+.amount-value {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* Specific Colors for Summary */
+.summary-income { border-color: var(--income-color); }
+.summary-income .amount-value { color: var(--income-color); }
+
+.summary-expense { border-color: var(--expense-color); }
+.summary-expense .amount-value { color: var(--expense-color); }
+
+.summary-net { border-color: var(--net-income-color); }
+.summary-net .amount-value { color: var(--net-income-color); }
+
+.summary-net.negative { border-color: var(--expense-color); }
+.summary-net.negative .amount-value { color: var(--expense-color); }
+
+
+/* Expressive Status Styling */
+#financial-status-message {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    background-color: var(--status-bg); 
+    color: var(--fg-color); 
+    border: 2px solid var(--subtle-color); 
+    transition: all var(--transition-speed);
+}
+
+/* --- Transaction List ENHANCEMENT (Glow Effect) --- */
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 22px; 
+    margin: 10px; 
+    border-radius: 10px; 
+    border: 1px solid rgba(137, 180, 250, 0.06); 
+    background-color: var(--bg-color); 
+    box-sizing: border-box;
+    overflow: hidden; 
+    transition: background-color var(--transition-speed), border-color var(--transition-speed), transform 0.12s, box-shadow var(--transition-speed); 
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.transaction-item:hover {
+    background-color: rgba(137, 180, 250, 0.1); 
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 10px rgba(137, 180, 250, 0.4); 
+}
+
+#transaction-list li {
+    padding: 0;
+    border-bottom: none;
+}
+
+.transaction-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 14px;
+    min-width: 0;
+}
+
+.item-description {
+    font-weight: 600;
+    font-size: 1rem; 
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px; 
+}
+.item-description .type-emoji {
+    font-size: 1.1em;
+    margin-right: 10px;
+    transition: transform 0.2s;
+    display: inline-block;
+}
+
+.item-date {
+    color: var(--subtle-color);
+    font-size: 0.8rem;
+    margin-top: 4px;
+}
+
+.item-category {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background-color: var(--status-bg); 
+    border: 1px solid var(--subtle-color);
+    color: var(--fg-color);
+    margin-left: 10px;
+    font-weight: 400; 
+}
+
+.description-line {
+    display: flex;
+    align-items: center;
+}
+
+.transaction-amount {
+    font-weight: 700;
+    min-width: 90px;
+    max-width: 180px; 
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: right;
+    transition: color var(--transition-speed);
+    font-size: 1.1rem;
+}
+
+.transaction-amount.income-text { 
+    color: var(--income-color); 
+    text-shadow: 0 0 5px rgba(166, 227, 161, 0.5);
+}
+.transaction-amount.expense-text { 
+    color: var(--expense-color); 
+    text-shadow: 0 0 5px rgba(243, 139, 168, 0.5);
+}
+
+.d-flex.align-items-center {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 12px;
+    padding-right: 6px;
+    flex-shrink: 0;
+}
+
+/* Mobile adjustment for transaction list */
+@media (max-width: 576px) {
+    .transaction-item {
+        flex-wrap: wrap; 
+        padding: 12px;
+    }
+    .transaction-details {
+        width: 100%;
+        padding-right: 0;
+        margin-bottom: 8px;
+    }
+    .description-line {
+        flex-direction: row; 
+        flex-wrap: wrap;
+    }
+    .item-category {
+        margin-left: 0;
+        margin-top: 5px;
+        display: block; 
+    }
+    .transaction-amount {
+        order: 3;
+        width: calc(100% - 40px); 
+        text-align: left;
+        font-size: 1.2rem;
+    }
+    .btn-delete {
+        order: 2; 
+    }
+}
+
+#transaction-list {
+    padding: 8px 10px;
+}
+
+.btn-delete {
+    padding: 6px 9px;
+    border-radius: 6px;
+    margin-right: 6px; 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
