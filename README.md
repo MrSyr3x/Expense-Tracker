@@ -5,6 +5,11 @@ Track your spending, visualize income vs. expenses, and stay financially zen �
 
 ---
 
+## 🖼️ Preview  
+![Expense Tracker — Catppuccin Edition 🐱☕️](./assets/Image.png)
+
+---
+
 ## 🚀 Live Demo  
 📊 **[Open App](https://mrsyr3x.github.io/Expense-Tracker/)**  
 
