@@ -5,6 +5,11 @@ Track your spending, visualize income vs. expenses, and stay financially zen �
 
 ---
 
+## 🚀 Live Demo  
+📊 **[Open App](https://mrsyr3x.github.io/Expense-Tracker/)**  
+
+---
+
 ## 💡 Highlights
 - 🪙 **Add & Manage Transactions** — easily track income and expenses  
 - 🧾 **Categorization** — tag transactions (Food, Bills, Travel, etc.)  
