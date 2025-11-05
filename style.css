@@ -1,38 +1,30 @@
-/* --- Catppuccin Color Variables (Mocha - Dark Mode, FIXED) --- */
-
-/* Fixed to Dark Mode (Mocha) for consistent, aesthetic experience */
 :root {
-    --bg-color: #1e1e2e; /* Crust/Base */
-    --fg-color: #cdd6f4; /* Text */
-    --surface-color: #313244; /* Surface/Card */
-    --subtle-color: #45475a; /* Overlay/Hint Text */
-    --primary-accent: #89b4fa; /* Blue (Accent for headings/buttons) */
-    --income-color: #a6e3a1; /* Green */
-    --expense-color: #f38ba8; /* Red */
-    --net-income-color: #f9e2af; /* Yellow (Subtle change for net) */
-    --status-bg: #45475a; /* Consistent background for status/subtle elements */
+    --bg-color: #1e1e2e;
+    --fg-color: #cdd6f4;
+    --surface-color: #313244;
+    --subtle-color: #45475a;
+    --primary-accent: #89b4fa;
+    --income-color: #a6e3a1;
+    --expense-color: #f38ba8;
+    --net-income-color: #f9e2af;
+    --status-bg: #45475a;
     --font-family: 'Source Code Pro', monospace;
     --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     --transition-speed: 0.3s;
 }
 
-/* ADDED: Catppuccin Color Variables (Latte - Light Mode) */
-/* The JS toggles the body class, which activates these variables */
 body.theme-light {
-    --bg-color: #eff1f5; /* Base */
-    --fg-color: #4c4f69; /* Text */
-    --surface-color: #e6e9ef; /* Surface/Card */
-    --subtle-color: #9ca0b0; /* Overlay/Hint Text */
-    --primary-accent: #1e66f5; /* Blue */
-    --income-color: #40a02b; /* Green */
-    --expense-color: #d20f39; /* Red */
-    --net-income-color: #df8e1d; /* Yellow */
-    --status-bg: #ccd0da; /* Subtle background */
+    --bg-color: #eff1f5;
+    --fg-color: #4c4f69;
+    --surface-color: #e6e9ef;
+    --subtle-color: #9ca0b0;
+    --primary-accent: #1e66f5;
+    --income-color: #40a02b;
+    --expense-color: #d20f39;
+    --net-income-color: #df8e1d;
+    --status-bg: #ccd0da;
     --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-
-
-/* --- Global Styling and Animations --- */
 
 body {
     background-color: var(--bg-color);
@@ -68,27 +60,22 @@ h1, header p {
     color: var(--primary-accent);
 }
 
-/* --- Card and Section Styling (Enhanced) --- */
 .section-card {
     background-color: var(--surface-color);
     color: var(--fg-color);
     border: 1px solid var(--subtle-color);
-    border-radius: 12px; /* Slightly more rounded corners */
-    /* Increased initial shadow for a 'lifted' look */
+    border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); 
     transition: all var(--transition-speed);
-    transform: translateY(0); /* Ensure initial state is set */
+    transform: translateY(0);
 }
 
 .section-card:hover {
-    /* Enhanced: Subtle lift and primary glow on hover */
     transform: translateY(-5px); 
     border-color: var(--primary-accent);
     box-shadow: var(--box-shadow), 0 0 25px rgba(137, 180, 250, 0.4); 
 }
-/* ------------------------------------------- */
 
-/* Inputs and Selects */
 .form-control, .form-select {
     background-color: var(--bg-color);
     color: var(--fg-color);
@@ -103,7 +90,6 @@ h1, header p {
     box-shadow: 0 0 0 0.25rem var(--primary-accent)40; 
 }
 
-/* Date Input Styling (Custom Calendar Look) */
 .date-input-container {
     position: relative;
     display: flex;
@@ -146,7 +132,6 @@ h1, header p {
     box-shadow: 0 0 0 0.25rem var(--primary-accent)40;
 }
 
-/* Button Styling */
 .btn-catpuccin {
     background-color: var(--primary-accent);
     color: var(--bg-color); 
@@ -176,12 +161,11 @@ h1, header p {
     transform: scale(1.1);
 }
 
-/* Error Message Styling */
 .error-message {
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--expense-color);
-    background-color: rgba(243, 139, 168, 0.1); /* Subtle red background */
+    background-color: rgba(243, 139, 168, 0.1);
     border: 1px solid var(--expense-color);
     padding: 10px;
     margin-bottom: 15px;
@@ -189,8 +173,6 @@ h1, header p {
     transition: opacity var(--transition-speed);
 }
 
-
-/* --- Summary Boxes --- */
 .summary-box {
     padding: 1.25rem;
     border-radius: 10px;
@@ -203,10 +185,8 @@ h1, header p {
 }
 
 .summary-box:hover {
-     /* Uses the existing specific border color, but changes the style to dashed */
      border-style: dashed;
      border-width: 2px;
-     /* Enhanced: Subtle lift and glow on hover for any summary box */
      transform: translateY(-3px);
      box-shadow: var(--box-shadow), 0 0 20px rgba(137, 180, 250, 0.3);
 }
@@ -221,7 +201,6 @@ h1, header p {
     font-weight: 700;
 }
 
-/* Specific Colors for Summary */
 .summary-income { border-color: var(--income-color); }
 .summary-income .amount-value { color: var(--income-color); }
 
@@ -234,8 +213,6 @@ h1, header p {
 .summary-net.negative { border-color: var(--expense-color); }
 .summary-net.negative .amount-value { color: var(--expense-color); }
 
-
-/* Expressive Status Styling */
 #financial-status-message {
     font-size: 1rem;
     font-weight: 600;
@@ -249,7 +226,6 @@ h1, header p {
     transition: all var(--transition-speed);
 }
 
-/* --- Transaction List ENHANCEMENT (Glow Effect) --- */
 .transaction-item {
     display: flex;
     justify-content: space-between;
@@ -356,7 +332,6 @@ h1, header p {
     flex-shrink: 0;
 }
 
-/* Mobile adjustment for transaction list */
 @media (max-width: 576px) {
     .transaction-item {
         flex-wrap: wrap; 
