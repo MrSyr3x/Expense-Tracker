@@ -43,22 +43,19 @@ function updateSummary() {
     const totalIncome = transactions
         .filter(t => t.type === 'income')
         .reduce((sum, t) => sum + t.amount, 0);
-
     const totalExpenses = transactions
         .filter(t => t.type === 'expense')
         .reduce((sum, t) => sum + t.amount, 0);
-
     const netIncome = totalIncome - totalExpenses;
 
     if (totalIncomeEl) totalIncomeEl.textContent = formatRupee(totalIncome);
     if (totalExpensesEl) totalExpensesEl.textContent = formatRupee(totalExpenses);
     if (netIncomeEl) netIncomeEl.textContent = formatRupee(netIncome);
-    
+
     if (netIncomeBoxEl && statusMessageEl) {
         netIncomeBoxEl.classList.remove('negative');
-        
         const rootStyles = getComputedStyle(document.documentElement);
-        
+
         if (netIncome < 0) {
             netIncomeBoxEl.classList.add('negative');
             statusMessageEl.innerHTML = "Status: **Caution!** It's time to review those expenses. 🚨";
@@ -74,10 +71,9 @@ function updateSummary() {
 }
 
 function renderTransactions() {
-    if (!transactionList) return; 
-    
+    if (!transactionList) return;
     transactionList.innerHTML = '';
-    
+
     if (transactions.length === 0) {
         if (noTransactionsEl) noTransactionsEl.classList.remove('d-none');
     } else {
@@ -92,136 +88,97 @@ function renderTransactions() {
         const amountClass = isIncome ? 'income-text' : 'expense-text';
         const typeEmoji = isIncome ? '✅' : '🔴';
         const categoryIcon = categoryEmojis[transaction.category] || '🏷️';
-        
+
         const listItem = document.createElement('li');
         listItem.classList.add('transaction-item');
         listItem.setAttribute('data-id', transaction.id);
 
         const formattedAmount = formatRupee(transaction.amount);
-
         listItem.innerHTML = `
-            <div class="transaction-details">
-                <div class="description-line">
-                    <span class="item-description">
-                        <span class="type-emoji">${typeEmoji}</span> ${transaction.description}
-                    </span>
-                    <span class="item-category">${categoryIcon} ${transaction.category}</span>
+            <div class="transaction-content">
+                <div class="transaction-left">
+                    <span class="transaction-icon">${typeEmoji}</span>
+                    <div class="transaction-info">
+                        <div class="transaction-category">
+                            <span class="category-emoji">${categoryIcon}</span>
+                            <span class="category-name">${transaction.category}</span>
+                        </div>
+                        <div class="transaction-date">${transaction.date}</div>
+                    </div>
                 </div>
-                <span class="item-date">Date: ${transaction.date}</span>
-            </div>
-            <div class="d-flex align-items-center">
-                <span class="transaction-amount ${amountClass}">
-                    ${sign} ${formattedAmount}
-                </span>
-                <button class="btn btn-sm btn-delete ms-3" data-id="${transaction.id}">
-                    <i data-lucide="trash-2" style="width: 1rem; height: 1rem;"></i>
-                </button>
+                <div class="transaction-right">
+                    <span class="transaction-amount ${amountClass}">${sign}${formattedAmount}</span>
+                    <button class="delete-btn" data-id="${transaction.id}">
+                        <i data-lucide="trash-2"></i>
+                    </button>
+                </div>
             </div>
         `;
-        
+
         transactionList.appendChild(listItem);
     });
-    
-    updateSummary();
-    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+
+    if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
+
+    updateSummary();
 }
 
-function validateInput(date, description, category, amount) {
-    if (!date || !description.trim() || !category || isNaN(amount) || amount <= 0) {
-        if (errorMessageEl) {
-            errorMessageEl.innerHTML = "🚫 **Validation Error!** Please ensure all fields are filled correctly, and amount is a positive number.";
-            errorMessageEl.classList.remove('d-none');
-        }
-        return false;
-    }
-    if (errorMessageEl) {
-        errorMessageEl.textContent = "";
-        errorMessageEl.classList.add('d-none');
-    }
-    return true;
+function deleteTransaction(id) {
+    transactions = transactions.filter(t => t.id !== id);
+    saveToLocalStorage();
+    renderTransactions();
 }
 
 function addTransaction(e) {
     e.preventDefault();
 
-    const date = dateInput.value;
     const description = document.getElementById('description').value;
-    const category = document.getElementById('category').value.split(' ')[0]; 
     const amount = parseFloat(document.getElementById('amount').value);
-    const type = document.getElementById('type').value.split(' ')[0]; 
+    const category = document.getElementById('category').value;
+    const type = document.getElementById('type').value;
+    const date = dateInput.value;
 
-    if (!validateInput(date, description, category, amount)) {
+    if (!description || !amount || !category || !type || !date) {
+        if (errorMessageEl) {
+            errorMessageEl.textContent = 'Please fill all fields!';
+            errorMessageEl.classList.remove('d-none');
+        }
         return;
     }
 
-    const newTransaction = {
+    if (errorMessageEl) {
+        errorMessageEl.classList.add('d-none');
+    }
+
+    const transaction = {
         id: Date.now(),
-        date,
         description,
-        category,
         amount,
-        type
+        category,
+        type,
+        date
     };
 
-    transactions.push(newTransaction);
-    renderTransactions(); 
-    
-    transactionForm.reset(); 
-    if (dateDisplayText) dateDisplayText.textContent = 'No Date Selected'; 
-    saveToLocalStorage(); 
-}
-
-function deleteTransaction(id) {
-    const idNumber = parseInt(id);
-    transactions = transactions.filter(t => t.id !== idNumber);
-    renderTransactions();
+    transactions.unshift(transaction);
     saveToLocalStorage();
-}
-
-function setTheme(theme) {
-    const modeIcon = document.getElementById('mode-icon');
-    if (theme === 'light') {
-        body.classList.add('theme-light');
-        body.classList.remove('theme-dark');
-        if (modeIcon) modeIcon.setAttribute('data-lucide', 'moon'); 
-        localStorage.setItem('catpuccinTheme', 'light');
-    } else {
-        body.classList.add('theme-dark');
-        body.classList.remove('theme-light');
-        if (modeIcon) modeIcon.setAttribute('data-lucide', 'sun');
-        localStorage.setItem('catpuccinTheme', 'dark');
-    }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) {
-        lucide.createIcons();
-    }
-    updateSummary(); 
-}
-
-function toggleTheme() {
-    const currentTheme = body.classList.contains('theme-light') ? 'light' : 'dark';
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-}
-
-function loadFromLocalStorage() {
-    const savedTransactions = localStorage.getItem('catpuccinTransactions');
-    if (savedTransactions) {
-        try {
-            transactions = JSON.parse(savedTransactions);
-        } catch (e) {
-            console.error("Could not parse transactions from local storage:", e);
-            transactions = [];
-        }
-    }
-    const savedTheme = localStorage.getItem('catpuccinTheme') || 'dark';
-    setTheme(savedTheme);
     renderTransactions();
+
+    transactionForm.reset();
+    if (dateDisplayText) dateDisplayText.textContent = 'No Date Selected';
 }
 
 function saveToLocalStorage() {
-    localStorage.setItem('catpuccinTransactions', JSON.stringify(transactions));
+    localStorage.setItem('transactions', JSON.stringify(transactions));
+}
+
+function loadFromLocalStorage() {
+    const saved = localStorage.getItem('transactions');
+    if (saved) {
+        transactions = JSON.parse(saved);
+        renderTransactions();
+    }
 }
 
 if (transactionForm) {
@@ -230,16 +187,12 @@ if (transactionForm) {
 
 if (transactionList) {
     transactionList.addEventListener('click', (e) => {
-        const deleteButton = e.target.closest('.btn-delete');
-        if (deleteButton) {
-            const id = deleteButton.getAttribute('data-id');
+        const deleteBtn = e.target.closest('.delete-btn');
+        if (deleteBtn) {
+            const id = parseInt(deleteBtn.dataset.id);
             deleteTransaction(id);
         }
     });
-}
-
-if (modeToggleBtn) {
-    modeToggleBtn.addEventListener('click', toggleTheme);
 }
 
 if (dateInput && dateDisplayText) {
@@ -248,6 +201,18 @@ if (dateInput && dateDisplayText) {
             dateDisplayText.textContent = dateInput.value;
         } else {
             dateDisplayText.textContent = 'No Date Selected';
+        }
+    });
+}
+
+const dateInputElement = document.getElementById('date');
+const dateContainer = document.getElementById('date-input-visual');
+
+if (dateContainer && dateInputElement) {
+    dateContainer.addEventListener('click', () => {
+        dateInputElement.click();
+        if (dateInputElement.showPicker) {
+            dateInputElement.showPicker();
         }
     });
 }
